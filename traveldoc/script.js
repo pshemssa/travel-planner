@@ -1,4 +1,8 @@
-// ...
+const apiKey = 'YOUR_OPENWEATHER_API_KEY'; // Replace with your actual API key
+
+const cityInput = document.getElementById('city-input');
+const getTemperatureBtn = document.getElementById('get-temperature-btn');
+const temperatureDisplay = document.getElementById('temperature-display');
 
 getTemperatureBtn.addEventListener('click', async () => {
   const city = cityInput.value;
