@@ -37,8 +37,8 @@ function displayResults(destinations) {
 }
 
 async function fetchWeather(coordinates) {
-  const OPENWEATHER_API_KEY = 'YOUR_OPENWEATHER_API_KEY';
-  const url = `https://api.openweathermap.org/data/2.5/weather?lat=${coordinates.lat}&lon=${coordinates.lon}&units=metric&appid=${OPENWEATHER_API_KEY}`;
+  const OPENWEATHER_API_KEY = '6259f0c19a4f72c3ee257d76d3d8c63c';
+  const url = `https://api.openweathermap.org/data/2.5/weather?lat=${coordinates.lat}&lon=${coordinates.lon}&units=metric&appid=$6259f0c19a4f72c3ee257d76d3d8c63c`;
   
   try {
     const response = await fetch(url);
