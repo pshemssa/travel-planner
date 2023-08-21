@@ -1,34 +1,58 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+const preferencesForm = document.getElementById('preferences-form');
+const resultsDiv = document.getElementById('results');
 
-const FlightSearch = () => {
-  const [destination, setDestination] = useState('');
-  const [flights, setFlights] = useState([]);
+preferencesForm.addEventListener('submit', async (event) => {
+  event.preventDefault();
 
-  const searchFlights = async () => {
-    try {
-      const response = await axios.get(`YOUR_SKYSCANNER_API_ENDPOINT`);
-      setFlights(response.data);
-    } catch (error) {
-      console.error('Error fetching flight data:', error);
-    }
-  };
+  const temperature = document.getElementById('temperature').value;
+  // Get other preferences from input fields
 
-  return (
-    <div>
-      <input
-        type="text"
-        value={destination}
-        onChange={(e) => setDestination(e.target.value)}
-      />
-      <button onClick={searchFlights}>Search Flights</button>
-      <ul>
-        {flights.map((flight) => (
-          <li key={flight.id}>{flight.name} - {flight.price}</li>
-        ))}
-      </ul>
-    </div>
-  );
-};
+  // Call Skyscanner API to fetch destinations based on preferences
+  const destinations = await fetchDestinations(temperature);
+  
+  // Display results
+  displayResults(destinations);
+});
 
-export default FlightSearch;
+async function fetchDestinations(temperature) {
+  // Implement the logic to fetch destinations using the Skyscanner API
+  // Return an array of destination objects
+}
+
+function displayResults(destinations) {
+  resultsDiv.innerHTML = '';
+
+  destinations.forEach(async (destination) => {
+    const weather = await fetchWeather(destination.coordinates);
+    const destinationDiv = document.createElement('div');
+    destinationDiv.innerHTML = `
+      <h2>${destination.name}</h2>
+      <p>${destination.description}</p>
+      <p>Rating: ${destination.rating}</p>
+      <p>Weather: ${weather.temperature}°C, ${weather.condition}</p>
+      <!-- Add more destination information -->
+    `;
+    resultsDiv.appendChild(destinationDiv);
+  });
+}
+
+async function fetchWeather(coordinates) {
+  const OPENWEATHER_API_KEY = 'YOUR_OPENWEATHER_API_KEY';
+  const url = `https://api.openweathermap.org/data/2.5/weather?lat=${coordinates.lat}&lon=${coordinates.lon}&units=metric&appid=${OPENWEATHER_API_KEY}`;
+  
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+
+    return {
+      temperature: data.main.temp,
+      condition: data.weather[0].description
+    };
+  } catch (error) {
+    console.error('Error fetching weather data:', error);
+    return {
+      temperature: 'N/A',
+      condition: 'N/A'
+    };
+  }
+}
