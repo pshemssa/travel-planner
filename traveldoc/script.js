@@ -1,4 +1,4 @@
-const apiKey = 'YOUR_OPENWEATHER_API_KEY'; // Replace with your actual API key
+const apiKey = '6259f0c19a4f72c3ee257d76d3d8c63c'; 
 
 const cityInput = document.getElementById('city-input');
 const getTemperatureBtn = document.getElementById('get-temperature-btn');
@@ -38,8 +38,6 @@ async function fetchWeather(city) {
 
 function displayWeatherData(weatherData) {
   temperatureDisplay.textContent = `Current temperature in ${city}: ${weatherData.temperature}°C`;
-  // Display more weather information as needed
-  // Example: temperatureDisplay.textContent += `, Description: ${weatherData.description}`;
+  
 }
 
-// ...
