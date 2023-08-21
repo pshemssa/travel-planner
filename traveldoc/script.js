@@ -1,43 +1,51 @@
 const apiKey = '6259f0c19a4f72c3ee257d76d3d8c63c'; 
+const searchButton = document.getElementById('searchButton');
+const cityInput = document.getElementById('cityInput');
+const currentWeatherDiv = document.getElementById('currentWeather');
+const forecastDiv = document.getElementById('forecast');
 
-const cityInput = document.getElementById('city-input');
-const getTemperatureBtn = document.getElementById('get-temperature-btn');
-const temperatureDisplay = document.getElementById('temperature-display');
-
-getTemperatureBtn.addEventListener('click', async () => {
-  const city = cityInput.value;
-  
-  if (city) {
-    const weatherData = await fetchWeather(city);
-    displayWeatherData(weatherData);
-  } else {
-    temperatureDisplay.textContent = 'Please enter a city.';
-  }
+searchButton.addEventListener('click', () => {
+    const cityName = cityInput.value;
+    if (cityName) {
+        fetchWeatherData(cityName);
+        fetchForecastData(cityName);
+    }
 });
 
-async function fetchWeather(city) {
-  const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
-  
-  try {
-    const response = await fetch(apiUrl);
+async function fetchWeatherData(cityName) {
+    const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}&units=metric`);
     const data = await response.json();
     
-    if (response.ok) {
-      return {
-        temperature: data.main.temp,
-        description: data.weather[0].description
-      };
-    } else {
-      throw new Error(data.message || 'Failed to fetch weather data.');
-    }
-  } catch (error) {
-    console.error('Error fetching weather data:', error);
-    throw error;
-  }
+    const temperature = data.main.temp;
+    const description = data.weather[0].description;
+
+    currentWeatherDiv.innerHTML = `
+        <h2>Current Weather in ${cityName}</h2>
+        <p>Temperature: ${temperature}°C</p>
+        <p>Description: ${description}</p>
+    `;
 }
 
-function displayWeatherData(weatherData) {
-  temperatureDisplay.textContent = `Current temperature in ${city}: ${weatherData.temperature}°C`;
-  
-}
+async function fetchForecastData(cityName) {
+    const response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=${apiKey}&units=metric`);
+    const data = await response.json();
+    
+    const forecastItems = data.list.slice(0, 5); // Get the first 5 forecast items
+    
+    let forecastHTML = '<h2>5-Day Forecast</h2>';
+    forecastItems.forEach(item => {
+        const dateTime = new Date(item.dt * 1000);
+        const temperature = item.main.temp;
+        const description = item.weather[0].description;
+        
+        forecastHTML += `
+            <div class="forecast-item">
+                <p>Date/Time: ${dateTime.toLocaleString()}</p>
+                <p>Temperature: ${temperature}°C</p>
+                <p>Description: ${description}</p>
+            </div>
+        `;
+    });
 
+    forecastDiv.innerHTML = forecastHTML;
+}

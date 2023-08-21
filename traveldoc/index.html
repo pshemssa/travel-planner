@@ -1,19 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>City Temperature Checker</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Weather Dashboard</title>
 </head>
 <body>
-  <h1>City Temperature Checker</h1>
-  <label for="city-input">Enter a city:</label>
-  <input type="text" id="city-input">
-  <button id="get-temperature-btn">Get Temperature</button>
-  <p id="temperature-display"></p>
-  <script src="script.js"></script>
+    <h1>Weather Dashboard</h1>
+    <input type="text" id="cityInput" placeholder="Enter city name">
+    <button id="searchButton">Search</button>
+
+    <div id="currentWeather">
+        <!-- Current weather data will be displayed here -->
+    </div>
+
+    <div id="forecast">
+        <!-- Forecast data will be displayed here -->
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
-
-
-
