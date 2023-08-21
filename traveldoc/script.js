@@ -1,58 +1,34 @@
-const preferencesForm = document.getElementById('preferences-form');
-const resultsDiv = document.getElementById('results');
+const apiKey = '6259f0c19a4f72c3ee257d76d3d8c63c'; // Replace with your actual API key
 
-preferencesForm.addEventListener('submit', async (event) => {
-  event.preventDefault();
+const cityInput = document.getElementById('city-input');
+const getTemperatureBtn = document.getElementById('get-temperature-btn');
+const temperatureDisplay = document.getElementById('temperature-display');
 
-  const temperature = document.getElementById('temperature').value;
-  // Get other preferences from input fields
-
-  // Call Skyscanner API to fetch destinations based on preferences
-  const destinations = await fetchDestinations(temperature);
+getTemperatureBtn.addEventListener('click', async () => {
+  const city = cityInput.value;
   
-  // Display results
-  displayResults(destinations);
+  if (city) {
+    const temperature = await fetchTemperature(city);
+    temperatureDisplay.textContent = `Current temperature in ${city}: ${temperature}°C`;
+  } else {
+    temperatureDisplay.textContent = 'Please enter a city.';
+  }
 });
 
-async function fetchDestinations(temperature) {
-  // Implement the logic to fetch destinations using the Skyscanner API
-  // Return an array of destination objects
-}
-
-function displayResults(destinations) {
-  resultsDiv.innerHTML = '';
-
-  destinations.forEach(async (destination) => {
-    const weather = await fetchWeather(destination.coordinates);
-    const destinationDiv = document.createElement('div');
-    destinationDiv.innerHTML = `
-      <h2>${destination.name}</h2>
-      <p>${destination.description}</p>
-      <p>Rating: ${destination.rating}</p>
-      <p>Weather: ${weather.temperature}°C, ${weather.condition}</p>
-      <!-- Add more destination information -->
-    `;
-    resultsDiv.appendChild(destinationDiv);
-  });
-}
-
-async function fetchWeather(coordinates) {
-  const OPENWEATHER_API_KEY = '6259f0c19a4f72c3ee257d76d3d8c63c';
-  const url = `https://api.openweathermap.org/data/2.5/weather?lat=${coordinates.lat}&lon=${coordinates.lon}&units=metric&appid=$6259f0c19a4f72c3ee257d76d3d8c63c`;
+async function fetchTemperature(city) {
+  const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
   
   try {
-    const response = await fetch(url);
+    const response = await fetch(apiUrl);
     const data = await response.json();
-
-    return {
-      temperature: data.main.temp,
-      condition: data.weather[0].description
-    };
+    
+    if (response.ok) {
+      return data.main.temp;
+    } else {
+      throw new Error(data.message || 'Failed to fetch temperature.');
+    }
   } catch (error) {
-    console.error('Error fetching weather data:', error);
-    return {
-      temperature: 'N/A',
-      condition: 'N/A'
-    };
+    console.error('Error fetching temperature:', error);
+    throw error;
   }
 }
