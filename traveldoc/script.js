@@ -1,4 +1,5 @@
-const apiKey = '6259f0c19a4f72c3ee257d76d3d8c63c'; 
+const apiKey = 'YOUR_API_KEY'; // Replace with your actual API key from OpenWeatherMap
+
 const searchButton = document.getElementById('searchButton');
 const cityInput = document.getElementById('cityInput');
 const currentWeatherDiv = document.getElementById('currentWeather');
