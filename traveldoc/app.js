@@ -1,8 +1,8 @@
 // app.js
-document.addEventListener('DOMContentLoaded', () => {
+function getWeather() {
     const apiKey = '6993c51d9ed48a0f6abc8451b3433bb1';
-    const city = 'London';
-    const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`;
+    const cityInput = document.getElementById('cityInput').value;
+    const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityInput}&appid=${apiKey}&units=metric`;
   
     fetch(apiUrl)
       .then(response => response.json())
@@ -15,5 +15,5 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
       })
       .catch(error => console.error('Error fetching data:', error));
-  });
+  }
   
