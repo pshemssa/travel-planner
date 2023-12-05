@@ -1,31 +1,23 @@
+/* styles.css */
 body {
     font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
     margin: 0;
-    padding: 20px;
-}
-
-h1 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+  
+  .container {
     text-align: center;
-}
-
-#cityInput {
-    padding: 5px;
-}
-
-#searchButton {
-    padding: 5px 10px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-}
-
-#currentWeather, #forecast {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  #weatherData {
     margin-top: 20px;
-}
-
-.forecast-item {
-    border: 1px solid #ccc;
-    padding: 10px;
-    margin-top: 10px;
-}
+  }
+  
