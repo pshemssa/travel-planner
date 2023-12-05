@@ -1,6 +1,6 @@
 // app.js
 document.addEventListener('DOMContentLoaded', () => {
-    const apiKey = 'YOUR_OPENWEATHERMAP_API_KEY';
+    const apiKey = '6993c51d9ed48a0f6abc8451b3433bb1';
     const city = 'London';
     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`;
   
